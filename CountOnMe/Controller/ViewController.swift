@@ -22,7 +22,7 @@ class ViewController: UIViewController {
     @IBAction func tappedNumberButton(_ sender: UIButton) {
         guard let numberText = sender.title(for: .normal) else { return }
 
-        if arithmetics.expressionHaveResult {
+        if arithmetics.expressionHasResult {
             // Reset calculation
             reset()
         }
@@ -50,7 +50,7 @@ class ViewController: UIViewController {
             return showErrorDialog(title: "Zéro!", message: "Entrez une expression correcte !")
         }
 
-        guard arithmetics.expressionHaveEnoughElement else {
+        guard arithmetics.expressionHasEnoughElement else {
             return showErrorDialog(title: "Zéro!", message: "Démarrez un nouveau calcul !")
         }
         // Calculate the result and show it

@@ -17,18 +17,18 @@ class Arithmetics {
 
     // Error check computed variables
     var expressionIsCorrect: Bool {
-        return elements.last != "+" && elements.last != "-"
+        return elements.last != "+" && elements.last != "-" && elements.last != "*" && elements.last != "/"
     }
 
-    var expressionHaveEnoughElement: Bool {
+    var expressionHasEnoughElement: Bool {
         return elements.count >= 3
     }
 
     var canAddOperator: Bool {
-        return elements.last != "+" && elements.last != "-"
+        return elements.last != "+" && elements.last != "-" && elements.last != "*" && elements.last != "/"
     }
 
-    var expressionHaveResult: Bool = false
+    var expressionHasResult: Bool = false
 
     func calculate() -> String {
         // Create local copy of operations
@@ -50,13 +50,13 @@ class Arithmetics {
             operationsToReduce = Array(operationsToReduce.dropFirst(3))
             operationsToReduce.insert("\(result)", at: 0)
         }
-        expressionHaveResult = true
+        expressionHasResult = true
         guard let result = operationsToReduce.first else { return "Error" }
         return result
     }
 
     func resetCalculation() {
-        expressionHaveResult = false
+        expressionHasResult = false
         calculation = ""
     }
 }

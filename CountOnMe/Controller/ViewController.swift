@@ -26,39 +26,23 @@ class ViewController: UIViewController {
             // Reset calculation
             reset()
         }
-        appendToCalculationAndShow(numberText)
+        appendToCalculationAndShowOnTextView(numberText)
     }
 
     @IBAction func tappedAdditionButton(_ sender: UIButton) {
-        if arithmetics.canAddOperator {
-            appendToCalculationAndShow(" + ")
-        } else {
-            showErrorDialog(title: "Zéro!", message: "Un operateur est déja mis !")
-        }
+        addOperatorToCalculation(" + ")
     }
 
     @IBAction func tappedMultiplyButton(_ sender: Any) {
-        if arithmetics.canAddOperator {
-            appendToCalculationAndShow(" × ")
-        } else {
-            showErrorDialog(title: "Zéro!", message: "Un operateur est déja mis !")
-        }
+        addOperatorToCalculation(" × ")
     }
 
     @IBAction func tappedDivisionButton(_ sender: Any) {
-        if arithmetics.canAddOperator {
-            appendToCalculationAndShow(" ÷ ")
-        } else {
-            showErrorDialog(title: "Zéro!", message: "Un operateur est déja mis !")
-        }
+        addOperatorToCalculation(" ÷ ")
     }
 
     @IBAction func tappedSubstractionButton(_ sender: UIButton) {
-        if arithmetics.canAddOperator {
-            appendToCalculationAndShow(" - ")
-        } else {
-            showErrorDialog(title: "Zéro!", message: "Un operateur est déja mis !")
-        }
+        addOperatorToCalculation(" - ")
     }
 
     @IBAction func tappedEqualButton(_ sender: UIButton) {
@@ -80,7 +64,15 @@ class ViewController: UIViewController {
         textView.text = ""
     }
 
-    func appendToCalculationAndShow(_ toAppend: String) {
+    func addOperatorToCalculation(_ sign: String) {
+        if arithmetics.canAddOperator {
+            appendToCalculationAndShowOnTextView(sign)
+        } else {
+            showErrorDialog(title: "Zéro!", message: "Un operateur est déja mis !")
+        }
+    }
+
+    func appendToCalculationAndShowOnTextView(_ toAppend: String) {
         arithmetics.calculation.append(toAppend)
         textView.text = arithmetics.calculation
     }

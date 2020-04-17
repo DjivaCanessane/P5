@@ -29,13 +29,13 @@ class ViewController: UIViewController {
         appendToCalculationAndShowOnTextView(numberText)
     }
 
-    @IBAction func tappedOperatorButton(_ sender: UIButton) {
+    @IBAction func tappedOperandButton(_ sender: UIButton) {
         guard let title = sender.titleLabel?.text else { return }
         switch title {
-        case "+": addOperatorToCalculation(" + ")
-        case "×": addOperatorToCalculation(" × ")
-        case "-": addOperatorToCalculation(" - ")
-        case "÷": addOperatorToCalculation(" ÷ ")
+        case "+": addOperandToCalculation(" + ")
+        case "×": addOperandToCalculation(" × ")
+        case "-": addOperandToCalculation(" - ")
+        case "÷": addOperandToCalculation(" ÷ ")
         default: return
         }
     }
@@ -59,8 +59,8 @@ class ViewController: UIViewController {
         textView.text = ""
     }
 
-    func addOperatorToCalculation(_ sign: String) {
-        if arithmetics.canAddOperator {
+    func addOperandToCalculation(_ sign: String) {
+        if arithmetics.canAddOperand {
             appendToCalculationAndShowOnTextView(sign)
         } else {
             showErrorDialog(title: "Zéro!", message: "Un operateur est déja mis !")

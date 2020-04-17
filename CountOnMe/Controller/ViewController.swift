@@ -29,20 +29,15 @@ class ViewController: UIViewController {
         appendToCalculationAndShowOnTextView(numberText)
     }
 
-    @IBAction func tappedAdditionButton(_ sender: UIButton) {
-        addOperatorToCalculation(" + ")
-    }
-
-    @IBAction func tappedMultiplyButton(_ sender: Any) {
-        addOperatorToCalculation(" × ")
-    }
-
-    @IBAction func tappedDivisionButton(_ sender: Any) {
-        addOperatorToCalculation(" ÷ ")
-    }
-
-    @IBAction func tappedSubstractionButton(_ sender: UIButton) {
-        addOperatorToCalculation(" - ")
+    @IBAction func tappedOperatorButton(_ sender: UIButton) {
+        guard let title = sender.titleLabel?.text else { return }
+        switch title {
+        case "+": addOperatorToCalculation(" + ")
+        case "×": addOperatorToCalculation(" × ")
+        case "-": addOperatorToCalculation(" - ")
+        case "÷": addOperatorToCalculation(" ÷ ")
+        default: return
+        }
     }
 
     @IBAction func tappedEqualButton(_ sender: UIButton) {

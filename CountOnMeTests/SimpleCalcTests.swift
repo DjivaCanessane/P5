@@ -8,7 +8,6 @@
 
 import XCTest
 
-
 class SimpleCalcTests: XCTestCase {
 
     override func setUp() {

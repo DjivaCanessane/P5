@@ -13,7 +13,6 @@
 		1FA43BDA224E569A00F565CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FA43BD9224E569A00F565CB /* Assets.xcassets */; };
 		1FA43BDD224E569A00F565CB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FA43BDB224E569A00F565CB /* LaunchScreen.storyboard */; };
 		1FA43BF3224E569A00F565CB /* SimpleCalcUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA43BF2224E569A00F565CB /* SimpleCalcUITests.swift */; };
-		322643272449323800768EBA /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 322643262449323800768EBA /* Default-568h@2x.png */; };
 		32264329244937BC00768EBA /* Arithmetics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32264328244937BC00768EBA /* Arithmetics.swift */; };
 		3226432B2449385900768EBA /* ArithmeticsTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3226432A2449385900768EBA /* ArithmeticsTestCase.swift */; };
 /* End PBXBuildFile section */
@@ -48,7 +47,6 @@
 		1FA43BEE224E569A00F565CB /* CountOnMeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CountOnMeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FA43BF2224E569A00F565CB /* SimpleCalcUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleCalcUITests.swift; sourceTree = "<group>"; };
 		1FA43BF4224E569A00F565CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		322643262449323800768EBA /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		32264328244937BC00768EBA /* Arithmetics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Arithmetics.swift; sourceTree = "<group>"; };
 		3226432A2449385900768EBA /* ArithmeticsTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArithmeticsTestCase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -81,7 +79,6 @@
 		1FA43BC6224E569900F565CB = {
 			isa = PBXGroup;
 			children = (
-				322643262449323800768EBA /* Default-568h@2x.png */,
 				1FA43BD1224E569900F565CB /* CountOnMe */,
 				1FA43BE6224E569A00F565CB /* CountOnMeTests */,
 				1FA43BF1224E569A00F565CB /* CountOnMeUITests */,
@@ -269,7 +266,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1FA43BDD224E569A00F565CB /* LaunchScreen.storyboard in Resources */,
-				322643272449323800768EBA /* Default-568h@2x.png in Resources */,
 				1FA43BDA224E569A00F565CB /* Assets.xcassets in Resources */,
 				1FA43BD8224E569900F565CB /* Main.storyboard in Resources */,
 			);

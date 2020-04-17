@@ -37,6 +37,22 @@ class ViewController: UIViewController {
         }
     }
 
+    @IBAction func tappedMultiplyButton(_ sender: Any) {
+        if arithmetics.canAddOperator {
+            appendToCalculationAndShow(" × ")
+        } else {
+            showErrorDialog(title: "Zéro!", message: "Un operateur est déja mis !")
+        }
+    }
+
+    @IBAction func tappedDivisionButton(_ sender: Any) {
+        if arithmetics.canAddOperator {
+            appendToCalculationAndShow(" ÷ ")
+        } else {
+            showErrorDialog(title: "Zéro!", message: "Un operateur est déja mis !")
+        }
+    }
+
     @IBAction func tappedSubstractionButton(_ sender: UIButton) {
         if arithmetics.canAddOperator {
             appendToCalculationAndShow(" - ")

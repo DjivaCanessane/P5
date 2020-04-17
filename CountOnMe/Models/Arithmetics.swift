@@ -17,7 +17,7 @@ class Arithmetics {
 
     // Error check computed variables
     var expressionIsCorrect: Bool {
-        return elements.last != "+" && elements.last != "-" && elements.last != "*" && elements.last != "/"
+        return elements.last != "+" && elements.last != "-" && elements.last != "×" && elements.last != "÷"
     }
 
     var expressionHasEnoughElement: Bool {
@@ -25,7 +25,7 @@ class Arithmetics {
     }
 
     var canAddOperator: Bool {
-        return elements.last != "+" && elements.last != "-" && elements.last != "*" && elements.last != "/"
+        return elements.last != "+" && elements.last != "-" && elements.last != "×" && elements.last != "÷"
     }
 
     var expressionHasResult: Bool = false
@@ -41,9 +41,12 @@ class Arithmetics {
             let right = Int(operationsToReduce[2])!
 
             let result: Int
+            guard operand != "÷" || right != 0 else { return "impossible" }
             switch operand {
             case "+": result = left + right
             case "-": result = left - right
+            case "×": result = left * right
+            case "÷": result = left / right
             default: fatalError("Unknown operator !")
             }
 

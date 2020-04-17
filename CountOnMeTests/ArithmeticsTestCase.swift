@@ -16,14 +16,29 @@ class ArithmeticsTestCase: XCTestCase {
     // MARK: - Tests
 
     // Test calculation with each type of operator
-    func testGivenCalculationIsEmpty_WhenSubstraction_ThenShowResult() {
+    func testGivenCalculation_WhenSubstraction_ThenShowResult() {
         addCalculation("3 - 2")
         XCTAssertEqual(arithmetics.calculate(), "1")
     }
 
-    func testGivenCalculationIsEmpty_WhenAddition_ThenShowResult() {
+    func testGivenCalculation_WhenAddition_ThenShowResult() {
         addCalculation("3 + 2")
         XCTAssertEqual(arithmetics.calculate(), "5")
+    }
+
+    func testGivenCalculation_WhenMultiplication_ThenShowResult() {
+        addCalculation("3 × 2")
+        XCTAssertEqual(arithmetics.calculate(), "6")
+    }
+
+    func testGivenCalculation_WhenDivision_ThenShowResult() {
+        addCalculation("4 ÷ 2")
+        XCTAssertEqual(arithmetics.calculate(), "2")
+    }
+
+    func testGivenCalculation_WhenDivisionByZero_ThenShowError() {
+        addCalculation("4 ÷ 0")
+        XCTAssertEqual(arithmetics.calculate(), "impossible")
     }
 
     // Test expressionIsCorrect after each type of operator
@@ -38,12 +53,12 @@ class ArithmeticsTestCase: XCTestCase {
     }
 
     func testGivenCalculationEndWithMultiplicationOperator_WhenExpressionIsCorrect_ThenReturnFalse() {
-        addCalculation("3 *")
+        addCalculation("3 ×")
         XCTAssertFalse(arithmetics.expressionIsCorrect)
     }
 
     func testGivenCalculationEndWithDivisionOperator_WhenExpressionIsCorrect_ThenReturnFalse() {
-        addCalculation("3 /")
+        addCalculation("3 ÷")
         XCTAssertFalse(arithmetics.expressionIsCorrect)
     }
 
@@ -70,12 +85,12 @@ class ArithmeticsTestCase: XCTestCase {
     }
 
     func testGivenCalculationEndWithMultiplicationOperator_WhenCanAddOperator_ThenReturnFalse() {
-        addCalculation("3 *")
+        addCalculation("3 ×")
         XCTAssertFalse(arithmetics.canAddOperator)
     }
 
     func testGivenCalculationEndWithDivisionOperator_WhenCanAddOperator_ThenReturnFalse() {
-        addCalculation("3 /")
+        addCalculation("3 ÷")
         XCTAssertFalse(arithmetics.canAddOperator)
     }
 

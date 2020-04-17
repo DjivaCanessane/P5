@@ -23,7 +23,8 @@ class ViewController: UIViewController {
         guard let numberText = sender.title(for: .normal) else { return }
 
         if arithmetics.expressionHaveResult {
-            textView.text = ""
+            // Reset calculation
+            reset()
         }
         appendToCalculationAndShow(numberText)
     }
@@ -32,10 +33,7 @@ class ViewController: UIViewController {
         if arithmetics.canAddOperator {
             appendToCalculationAndShow(" + ")
         } else {
-            let alertVC =
-                UIAlertController(title: "Zéro!", message: "Un operateur est déja mis !", preferredStyle: .alert)
-            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            self.present(alertVC, animated: true, completion: nil)
+            showErrorDialog(title: "Zéro!", message: "Un operateur est déja mis !")
         }
     }
 
@@ -43,33 +41,21 @@ class ViewController: UIViewController {
         if arithmetics.canAddOperator {
             appendToCalculationAndShow(" - ")
         } else {
-            let alertVC =
-                UIAlertController(title: "Zéro!", message: "Un operateur est déja mis !", preferredStyle: .alert)
-            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            self.present(alertVC, animated: true, completion: nil)
+            showErrorDialog(title: "Zéro!", message: "Un operateur est déja mis !")
         }
     }
 
     @IBAction func tappedEqualButton(_ sender: UIButton) {
         guard arithmetics.expressionIsCorrect else {
-            let alertVC =
-                UIAlertController(title: "Zéro!", message: "Entrez une expression correcte !", preferredStyle: .alert)
-            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            return self.present(alertVC, animated: true, completion: nil)
+            return showErrorDialog(title: "Zéro!", message: "Entrez une expression correcte !")
         }
 
         guard arithmetics.expressionHaveEnoughElement else {
-            let alertVC =
-                UIAlertController(title: "Zéro!", message: "Démarrez un nouveau calcul !", preferredStyle: .alert)
-            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            return self.present(alertVC, animated: true, completion: nil)
+            return showErrorDialog(title: "Zéro!", message: "Démarrez un nouveau calcul !")
         }
         // Calculate the result and show it
         let result: String = arithmetics.calculate()
         textView.text.append(" = \(result)")
-
-        // Reset calculation
-        arithmetics.calculation = ""
     }
 
     // MARK: - Methods
@@ -81,5 +67,17 @@ class ViewController: UIViewController {
     func appendToCalculationAndShow(_ toAppend: String) {
         arithmetics.calculation.append(toAppend)
         textView.text = arithmetics.calculation
+    }
+
+    func showErrorDialog(title: String, message: String) {
+        let alertVC =
+            UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        self.present(alertVC, animated: true, completion: nil)
+    }
+
+    func reset() {
+        arithmetics.resetCalculation()
+        textView.text = ""
     }
 }

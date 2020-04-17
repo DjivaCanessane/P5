@@ -28,9 +28,7 @@ class Arithmetics {
         return elements.last != "+" && elements.last != "-"
     }
 
-    var expressionHaveResult: Bool {
-        return calculation.firstIndex(of: "=") != nil
-    }
+    var expressionHaveResult: Bool = false
 
     func calculate() -> String {
         // Create local copy of operations
@@ -52,7 +50,13 @@ class Arithmetics {
             operationsToReduce = Array(operationsToReduce.dropFirst(3))
             operationsToReduce.insert("\(result)", at: 0)
         }
+        expressionHaveResult = true
         guard let result = operationsToReduce.first else { return "Error" }
         return result
+    }
+
+    func resetCalculation() {
+        expressionHaveResult = false
+        calculation = ""
     }
 }

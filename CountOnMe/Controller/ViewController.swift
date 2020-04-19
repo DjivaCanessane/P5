@@ -48,6 +48,11 @@ class ViewController: UIViewController {
         guard arithmetics.expressionHasEnoughElement else {
             return showErrorDialog(title: "Zéro!", message: "Démarrez un nouveau calcul !")
         }
+
+        if textView.text.contains("=") {
+            reset()
+            return
+        }
         // Calculate the result and show it
         let result: String = arithmetics.calculate()
         textView.text.append(" = \(result)")

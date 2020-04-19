@@ -14,6 +14,8 @@ class Arithmetics {
     var elements: [String] {
         return calculation.split(separator: " ").map { "\($0)" }
     }
+    
+    var operationsToReduce: [String] = []
 
     // Error check computed variables
     var expressionIsCorrect: Bool {
@@ -32,45 +34,23 @@ class Arithmetics {
 
     func calculate() -> String {
         // Create local copy of operations
-        var operationsToReduce = elements
+        operationsToReduce = elements
 
         // Reduce all multiplication
-        operationsToReduce = reduceAllMultiplication(operationsToReduce)
+        reduceAllMultiplication()
 
         // Reduce all division
-        guard let operations = reduceAllDivision(operationsToReduce) else { return "impossible" }
-        operationsToReduce = operations
-
-        // Iterate over operations while an operand still here
-        let result = calculateAdditionAndSubstraction(operationsToReduce)
-        expressionHasResult = true
-        return result
-    }
-
-    func calculateAdditionAndSubstraction(_ elementsToCalculate: [String]) -> String {
-        var operationsToReduce = elementsToCalculate
-
-        while operationsToReduce.count > 1 {
-            let left = Int(operationsToReduce[0])!
-            let operand = operationsToReduce[1]
-            let right = Int(operationsToReduce[2])!
-
-            let result: Int
-            switch operand {
-            case "+": result = left + right
-            case "-": result = left - right
-            default: fatalError("Unknown operand !")
-            }
-
-            operationsToReduce = Array(operationsToReduce.dropFirst(3))
-            operationsToReduce.insert("\(result)", at: 0)
+        if let errorDivisionByZero = reduceAllDivision() {
+            return errorDivisionByZero
+        } else {
+            // Iterate over operations while an operand still here
+            let result = calculateAdditionAndSubstraction()
+            expressionHasResult = true
+            return result
         }
-        guard let result = operationsToReduce.first else { return "error" }
-        return result
     }
 
-    func reduceAllMultiplication(_ elementsToCalculate: [String]) -> [String] {
-        var operationsToReduce = elementsToCalculate
+    private func reduceAllMultiplication() {
 
         // Check if operationsToReduce contains multiplication operand
         var containsMultiplication: Bool {
@@ -80,21 +60,12 @@ class Arithmetics {
         // Check presence of multiplication or division to prioritize them
         while containsMultiplication {
             let operandIndex: Int = operationsToReduce.firstIndex(of: "×")!
-            let left = Int(operationsToReduce[operandIndex - 1])!
-            let right = Int(operationsToReduce[operandIndex + 1])!
-
-            let result: Int = left * right
-
-            for _ in 1...3 {
-                operationsToReduce.remove(at: operandIndex - 1)
-            }
-            operationsToReduce.insert("\(result)", at: operandIndex - 1)
+            let result: String = performOperation(operandIndex)
+            replacePriorOperationByResult(operandIndex - 1, result)
         }
-        return operationsToReduce
     }
 
-    func reduceAllDivision(_ elementsToCalculate: [String]) -> [String]? {
-        var operationsToReduce = elementsToCalculate
+    private func reduceAllDivision() -> String? {
 
         // Check if operationsToReduce contains multiplication operand
         var containsDivision: Bool {
@@ -103,19 +74,51 @@ class Arithmetics {
 
         // Check presence of multiplication or division to prioritize them
         while containsDivision {
-            let operandIndex: Int = operationsToReduce.firstIndex(of: "÷")!
-            let left = Int(operationsToReduce[operandIndex - 1])!
-            let right = Int(operationsToReduce[operandIndex + 1])!
-
-            guard right != 0 else { return nil }
-            let result: Int = left / right
-
-            for _ in 1...3 {
-                operationsToReduce.remove(at: operandIndex - 1)
+            let operandIndex = operationsToReduce.firstIndex(of: "÷")!
+            let result: String = performOperation(operandIndex)
+            if result == "impossible" {
+                return result
             }
-            operationsToReduce.insert("\(result)", at: operandIndex - 1)
+            replacePriorOperationByResult(operandIndex - 1, result)
         }
-        return operationsToReduce
+        return nil
+    }
+
+    private func calculateAdditionAndSubstraction() -> String {
+        while operationsToReduce.count > 1 {
+            let result: String = performOperation(1)
+            operationsToReduce = Array(operationsToReduce.dropFirst(3))
+            operationsToReduce.insert(result, at: 0)
+        }
+        guard let result = operationsToReduce.first else { return "error" }
+        return result
+    }
+
+    private func replacePriorOperationByResult(_ atIndex: Int, _ with: String) {
+        for _ in 1...3 {
+            operationsToReduce.remove(at: atIndex)
+        }
+        operationsToReduce.insert(with, at: atIndex)
+    }
+
+    private func performOperation(_ indexOfOperand: Int) -> String {
+        let operand: String = operationsToReduce[indexOfOperand]
+        let left = Int(operationsToReduce[indexOfOperand - 1])!
+        let right = Int(operationsToReduce[indexOfOperand + 1])!
+
+        //Prevents division by zero
+        guard operand != "÷" || right != 0 else { return "impossible" }
+
+        let result: Int
+        switch operand {
+        case "+": result = left + right
+        case "-": result = left - right
+        case "÷": result = left / right
+        case "×": result = left * right
+        default: fatalError("Unknown operand !")
+        }
+
+        return String(result)
     }
 
     func resetCalculation() {

@@ -14,7 +14,7 @@ class Arithmetics {
     var elements: [String] {
         return calculation.split(separator: " ").map { "\($0)" }
     }
-    
+
     var operationsToReduce: [String] = []
 
     // Error check computed variables

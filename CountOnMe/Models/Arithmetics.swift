@@ -9,7 +9,7 @@
 import Foundation
 
 class Arithmetics {
-    var calculation: String = ""
+    var calculation: String = "0"
 
     var elements: [String] {
         return calculation.split(separator: " ").map { "\($0)" }
@@ -17,11 +17,12 @@ class Arithmetics {
 
     var operationsToReduce: [String] = []
 
-    // Error check computed variables
+    // Check if the calculation do not finsh whith an operand
     var expressionIsCorrect: Bool {
         return elements.last != "+" && elements.last != "-" && elements.last != "×" && elements.last != "÷"
     }
 
+    // Check if we can calculate
     var expressionHasEnoughElement: Bool {
         return elements.count >= 3
     }
@@ -35,23 +36,24 @@ class Arithmetics {
     func calculate() -> String {
         // Create local copy of operations
         operationsToReduce = elements
+
+        // Check if calculation do not start with multiply or divide operand
         var startWithMultiplicationOrDivision: Bool {
             operationsToReduce[0] == "×" || operationsToReduce[0] == "÷"
         }
-
         if startWithMultiplicationOrDivision { return "impossible" }
+
         // Reduce all multiplication
         reduceAllMultiplication()
 
         // Reduce all division
         if let errorDivisionByZero = reduceAllDivision() {
             return errorDivisionByZero
-        } else {
-            // Iterate over operations while an operand still here
-            let result = calculateAdditionAndSubstraction()
-            expressionHasResult = true
-            return result
         }
+        // Iterate over operations while an operand still here
+        let result = calculateAdditionAndSubstraction()
+        expressionHasResult = true
+        return result
     }
 
     private func reduceAllMultiplication() {
@@ -61,8 +63,9 @@ class Arithmetics {
             return operationsToReduce.contains("×")
         }
 
-        // Check presence of multiplication or division to prioritize them
+        // Check presence of multiplication to prioritize them
         while containsMultiplication {
+            //TODO CHECK
             let operandIndex: Int = operationsToReduce.firstIndex(of: "×")!
             let result: String = performOperation(operandIndex)
             replacePriorOperationByResult(operandIndex - 1, result)
@@ -71,15 +74,18 @@ class Arithmetics {
 
     private func reduceAllDivision() -> String? {
 
-        // Check if operationsToReduce contains multiplication operand
+        // Check if operationsToReduce contains division operand
         var containsDivision: Bool {
             return operationsToReduce.contains("÷")
         }
 
-        // Check presence of multiplication or division to prioritize them
+        // Check presence of division to prioritize them
         while containsDivision {
+            //TODO CHECK
             let operandIndex = operationsToReduce.firstIndex(of: "÷")!
             let result: String = performOperation(operandIndex)
+
+            //return "impossible" while dividing by zero
             if result == "impossible" {
                 return result
             }
@@ -120,13 +126,26 @@ class Arithmetics {
         //verify if calculation start wign operand
         if Int(operationsToReduce[indexOfOperand]) != nil {
             operand = operationsToReduce[indexOfOperand + 1]
-            left = Float(operationsToReduce[indexOfOperand - 1]+operationsToReduce[indexOfOperand])!
-            right = Float(operationsToReduce[indexOfOperand + 2])!
+            guard let floatLeft =
+                Float(operationsToReduce[indexOfOperand - 1] + operationsToReduce[indexOfOperand])
+                else { return "error" }
+            left = floatLeft
 
+            guard let floatRight =
+                Float(operationsToReduce[indexOfOperand + 2])
+                else { return "error" }
+            right = floatRight
         } else {
             operand = operationsToReduce[indexOfOperand]
-            left = Float(operationsToReduce[indexOfOperand - 1])!
-            right = Float(operationsToReduce[indexOfOperand + 1])!
+            guard let floatLeft =
+                Float(operationsToReduce[indexOfOperand - 1])
+                else { return "error" }
+            left = floatLeft
+
+            guard let floatRight =
+                Float(operationsToReduce[indexOfOperand + 1])
+                else { return "error" }
+            right = floatRight
         }
 
         //Prevents division by zero
@@ -137,7 +156,7 @@ class Arithmetics {
         case "-": result = left - right
         case "÷": result = left / right
         case "×": result = left * right
-        default: fatalError("Unknown operand !")
+        default: return "Unknown operand !"
         }
         // if result have decimal part nul then convert to Int
         return floor(result) == result ? String(Int(result)) : String(result)
@@ -158,6 +177,34 @@ class Arithmetics {
 
     func resetCalculation() {
         expressionHasResult = false
-        calculation = ""
+        calculation = "0"
+    }
+
+    func addElement(_ element: String) {
+        // When addind a integer we replace the initial zero
+        if calculation == "0" && Int(element) != nil {
+            calculation = String(calculation.dropLast())
+            calculation.append(element)
+            return
+        } else if Int(element) != nil {
+            calculation.append(element)
+        } else {
+            switch element {
+            case "+": addOperandToCalculation(" + ")
+            case "×": addOperandToCalculation(" × ")
+            case "-": addOperandToCalculation(" - ")
+            case "÷": addOperandToCalculation(" ÷ ")
+            default: return
+            }
+        }
+    }
+
+    func addOperandToCalculation(_ sign: String) {
+        if canAddOperand {
+            calculation.append(sign)
+        } else {
+            calculation = String(calculation.dropLast())
+            calculation.append(sign)
+        }
     }
 }

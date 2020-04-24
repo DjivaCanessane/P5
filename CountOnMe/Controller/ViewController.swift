@@ -22,22 +22,18 @@ class ViewController: UIViewController {
     @IBAction func tappedNumberButton(_ sender: UIButton) {
         guard let numberText = sender.title(for: .normal) else { return }
 
-        if arithmetics.expressionHasResult {
-            // Reset calculation
-            reset()
-        }
-        appendToCalculationAndShowOnTextView(numberText)
+//        if arithmetics.expressionHasResult {
+//            // Reset calculation
+//            reset()
+//        }
+        arithmetics.addElement(numberText)
+        textView.text = arithmetics.calculation
     }
 
     @IBAction func tappedOperandButton(_ sender: UIButton) {
-        guard let title = sender.titleLabel?.text else { return }
-        switch title {
-        case "+": addOperandToCalculation(" + ")
-        case "×": addOperandToCalculation(" × ")
-        case "-": addOperandToCalculation(" - ")
-        case "÷": addOperandToCalculation(" ÷ ")
-        default: return
-        }
+        guard let operand = sender.titleLabel?.text else { return }
+        arithmetics.addElement(operand)
+        textView.text = arithmetics.calculation
     }
     @IBAction func tappedResetButton(_ sender: Any) {
         arithmetics.resetCalculation()
@@ -70,19 +66,6 @@ class ViewController: UIViewController {
     // MARK: - Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        textView.text = ""
-    }
-
-    func addOperandToCalculation(_ sign: String) {
-        if arithmetics.canAddOperand {
-            appendToCalculationAndShowOnTextView(sign)
-        } else {
-            showErrorDialog(title: "Zéro!", message: "Un operateur est déja mis !")
-        }
-    }
-
-    func appendToCalculationAndShowOnTextView(_ toAppend: String) {
-        arithmetics.calculation.append(toAppend)
         textView.text = arithmetics.calculation
     }
 
@@ -95,6 +78,6 @@ class ViewController: UIViewController {
 
     func reset() {
         arithmetics.resetCalculation()
-        textView.text = ""
+        textView.text = arithmetics.calculation
     }
 }

@@ -41,6 +41,11 @@ class ArithmeticsTestCase: XCTestCase {
         XCTAssertEqual(arithmetics.calculate(), "impossible")
     }
 
+    func testGivenCalculation_WhenUsingAnotherOperand_ThenShowError() {
+        addCalculation("4 / 0")
+        XCTAssertEqual(arithmetics.calculate(), "Unknown operand !")
+    }
+
     func testGivenCalculationWithMultipleOperand_WhenCalculate_ThenCalculateWithPrioritizingMultiplication() {
         addCalculation("1 + 2 × 3 + 4 × 2")
         XCTAssertEqual(arithmetics.calculate(), "15")
@@ -151,6 +156,12 @@ class ArithmeticsTestCase: XCTestCase {
         addCalculation("3 + 5")
         arithmetics.delete()
         XCTAssertEqual(arithmetics.calculation, "3 + ")
+    }
+
+    func testGivenEmptyCalculation_WhenDeleteElement_ThenNothing() {
+        addCalculation("")
+        arithmetics.delete()
+        XCTAssertEqual(arithmetics.calculation, "")
     }
 
     func testGivenCalculationEndingWithOperand_WhenDeleteElement_ThenCalculationWithoutLastElement() {

@@ -125,6 +125,25 @@ class ArithmeticsTestCase: XCTestCase {
         XCTAssertFalse(arithmetics.expressionHasResult)
     }
 
+    // Test delete method
+    func testGivenCalculationEndingWithInt_WhenDeleteElement_ThenCalculationWithoutLastElement() {
+        addCalculation("3 + 5")
+        arithmetics.delete()
+        XCTAssertEqual(arithmetics.calculation, "3 + ")
+    }
+
+    func testGivenCalculationEndingWithOperand_WhenDeleteElement_ThenCalculationWithoutLastElement() {
+        addCalculation("3 + ")
+        arithmetics.delete()
+        XCTAssertEqual(arithmetics.calculation, "3")
+    }
+
+    func testtestGivenCalculationEndingWithOperand_WhenDeleteElement_ThenCalculationIsEmpty() {
+        addCalculation("45 × 56")
+        arithmetics.resetCalculation()
+        XCTAssertEqual(arithmetics.calculation, "")
+    }
+
     // MARK: - Methods
     override func setUp() {
         super.setUp()

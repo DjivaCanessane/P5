@@ -39,6 +39,15 @@ class ViewController: UIViewController {
         default: return
         }
     }
+    @IBAction func tappedResetButton(_ sender: Any) {
+        arithmetics.resetCalculation()
+        textView.text = arithmetics.calculation
+    }
+
+    @IBAction func tappedDeleteButton(_ sender: Any) {
+        arithmetics.delete()
+        textView.text = arithmetics.calculation
+    }
 
     @IBAction func tappedEqualButton(_ sender: UIButton) {
         guard arithmetics.expressionIsCorrect else {

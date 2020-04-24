@@ -103,13 +103,13 @@ class Arithmetics {
 
     private func performOperation(_ indexOfOperand: Int) -> String {
         let operand: String = operationsToReduce[indexOfOperand]
-        let left = Int(operationsToReduce[indexOfOperand - 1])!
-        let right = Int(operationsToReduce[indexOfOperand + 1])!
+        let left = Double(operationsToReduce[indexOfOperand - 1])!
+        let right = Double(operationsToReduce[indexOfOperand + 1])!
 
         //Prevents division by zero
         guard operand != "÷" || right != 0 else { return "impossible" }
 
-        let result: Int
+        let result: Double
         switch operand {
         case "+": result = left + right
         case "-": result = left - right
@@ -119,6 +119,19 @@ class Arithmetics {
         }
 
         return String(result)
+    }
+
+    func delete() {
+        // Ensure that the calculation will not reset when taping number Button
+        expressionHasResult = false
+
+        guard let lastChar = calculation.last else { return }
+        guard lastChar == " " else {
+            calculation = String(calculation.dropLast())
+            return
+        }
+        calculation = String(calculation.dropLast(3))
+        return
     }
 
     func resetCalculation() {

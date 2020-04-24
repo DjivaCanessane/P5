@@ -35,7 +35,11 @@ class Arithmetics {
     func calculate() -> String {
         // Create local copy of operations
         operationsToReduce = elements
+        var startWithMultiplicationOrDivision: Bool {
+            operationsToReduce[0] == "×" || operationsToReduce[0] == "÷"
+        }
 
+        if startWithMultiplicationOrDivision { return "impossible" }
         // Reduce all multiplication
         reduceAllMultiplication()
 
@@ -85,9 +89,15 @@ class Arithmetics {
     }
 
     private func calculateAdditionAndSubstraction() -> String {
-        while operationsToReduce.count > 1 {
+        while operationsToReduce.count > 1 && operationsToReduce.count > 2 {
             let result: String = performOperation(1)
-            operationsToReduce = Array(operationsToReduce.dropFirst(3))
+            // check if calculation start with operand
+            if Int(operationsToReduce[1]) != nil {
+                // if so drop four elements
+                operationsToReduce = Array(operationsToReduce.dropFirst(4))
+            } else {
+                operationsToReduce = Array(operationsToReduce.dropFirst(3))
+            }
             operationsToReduce.insert(result, at: 0)
         }
         guard let result = operationsToReduce.first else { return "error" }
@@ -102,14 +112,26 @@ class Arithmetics {
     }
 
     private func performOperation(_ indexOfOperand: Int) -> String {
-        let operand: String = operationsToReduce[indexOfOperand]
-        let left = Float(operationsToReduce[indexOfOperand - 1])!
-        let right = Float(operationsToReduce[indexOfOperand + 1])!
+        let operand: String
+        let left: Float
+        let right: Float
+        let result: Float
+
+        //verify if calculation start wign operand
+        if Int(operationsToReduce[indexOfOperand]) != nil {
+            operand = operationsToReduce[indexOfOperand + 1]
+            left = Float(operationsToReduce[indexOfOperand - 1]+operationsToReduce[indexOfOperand])!
+            right = Float(operationsToReduce[indexOfOperand + 2])!
+
+        } else {
+            operand = operationsToReduce[indexOfOperand]
+            left = Float(operationsToReduce[indexOfOperand - 1])!
+            right = Float(operationsToReduce[indexOfOperand + 1])!
+        }
 
         //Prevents division by zero
         guard operand != "÷" || right != 0 else { return "impossible" }
 
-        let result: Float
         switch operand {
         case "+": result = left + right
         case "-": result = left - right

@@ -51,6 +51,27 @@ class ArithmeticsTestCase: XCTestCase {
         XCTAssertEqual(arithmetics.calculate(), "5")
     }
 
+    // Test calculation when starting with +, -, ÷ or ×
+    func testGivenCalculation_WhenStartingWithPlus_ThenShowError() {
+        addCalculation(" - 4 + 3")
+        XCTAssertEqual(arithmetics.calculate(), "-1")
+    }
+
+    func testGivenCalculation_WhenStartingWithMinus_ThenShowError() {
+        addCalculation(" + 4 + 3")
+        XCTAssertEqual(arithmetics.calculate(), "7")
+    }
+
+    func testGivenCalculation_WhenStartingWithMultiplication_ThenShowError() {
+        addCalculation(" × 4 + 0")
+        XCTAssertEqual(arithmetics.calculate(), "impossible")
+    }
+
+    func testGivenCalculation_WhenStartingWithDivision_ThenShowError() {
+        addCalculation(" ÷ 4 + 0")
+        XCTAssertEqual(arithmetics.calculate(), "impossible")
+    }
+
     // Test expressionIsCorrect after each type of operand
     func testGivenCalculationEndWithPlusOperand_WhenExpressionIsCorrect_ThenReturnFalse() {
         addCalculation("3 +")

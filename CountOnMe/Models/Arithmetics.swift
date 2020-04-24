@@ -103,13 +103,13 @@ class Arithmetics {
 
     private func performOperation(_ indexOfOperand: Int) -> String {
         let operand: String = operationsToReduce[indexOfOperand]
-        let left = Double(operationsToReduce[indexOfOperand - 1])!
-        let right = Double(operationsToReduce[indexOfOperand + 1])!
+        let left = Float(operationsToReduce[indexOfOperand - 1])!
+        let right = Float(operationsToReduce[indexOfOperand + 1])!
 
         //Prevents division by zero
         guard operand != "÷" || right != 0 else { return "impossible" }
 
-        let result: Double
+        let result: Float
         switch operand {
         case "+": result = left + right
         case "-": result = left - right
@@ -117,8 +117,8 @@ class Arithmetics {
         case "×": result = left * right
         default: fatalError("Unknown operand !")
         }
-
-        return String(result)
+        // if result have decimal part nul then convert to Int
+        return floor(result) == result ? String(Int(result)) : String(result)
     }
 
     func delete() {

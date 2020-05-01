@@ -21,11 +21,6 @@ class ViewController: UIViewController {
     // View actions
     @IBAction func tappedNumberButton(_ sender: UIButton) {
         guard let numberText = sender.title(for: .normal) else { return }
-
-//        if arithmetics.expressionHasResult {
-//            // Reset calculation
-//            reset()
-//        }
         arithmetics.addElement(numberText)
         textView.text = arithmetics.calculation
     }
@@ -46,7 +41,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction func tappedEqualButton(_ sender: UIButton) {
-        guard arithmetics.expressionIsCorrect else {
+        guard arithmetics.canAddOperand else {
             return showErrorDialog(title: "Zéro!", message: "Entrez une expression correcte !")
         }
 

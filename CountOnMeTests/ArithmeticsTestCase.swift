@@ -42,13 +42,15 @@ class ArithmeticsTestCase: XCTestCase {
     }
 
     func testGivenCalculation_WhenUsingAnotherOperand_ThenShowError() {
-        addCalculation("4 / 0")
-        XCTAssertEqual(arithmetics.calculate(), "Unknown operand !")
+        arithmetics.calculation = "4 / 5"
+        let result = arithmetics.calculate()
+        XCTAssertEqual(result, "Unknown operand !")
     }
 
     func testGivenCalculationWithMultipleOperand_WhenCalculate_ThenCalculateWithPrioritizingMultiplication() {
         addCalculation("1 + 2 × 3 + 4 × 2")
-        XCTAssertEqual(arithmetics.calculate(), "15")
+        let result: String = arithmetics.calculate()
+        XCTAssertEqual(result, "15")
     }
 
     func testGivenCalculationWithMultipleOperand_WhenCalculate_ThenCalculateWithPrioritizeDivision() {
@@ -67,35 +69,25 @@ class ArithmeticsTestCase: XCTestCase {
         XCTAssertEqual(arithmetics.calculate(), "7")
     }
 
-    func testGivenCalculation_WhenStartingWithMultiplication_ThenShowError() {
-        addCalculation(" × 4 + 0")
-        XCTAssertEqual(arithmetics.calculate(), "impossible")
-    }
-
-    func testGivenCalculation_WhenStartingWithDivision_ThenShowError() {
-        addCalculation(" ÷ 4 + 0")
-        XCTAssertEqual(arithmetics.calculate(), "impossible")
-    }
-
     // Test expressionIsCorrect after each type of operand
     func testGivenCalculationEndWithPlusOperand_WhenExpressionIsCorrect_ThenReturnFalse() {
         addCalculation("3 +")
-        XCTAssertFalse(arithmetics.expressionIsCorrect)
+        XCTAssertFalse(arithmetics.canAddOperand)
     }
 
     func testGivenCalculationEndWithMinusOperand_WhenExpressionIsCorrect_ThenReturnFalse() {
         addCalculation("3 -")
-        XCTAssertFalse(arithmetics.expressionIsCorrect)
+        XCTAssertFalse(arithmetics.canAddOperand)
     }
 
     func testGivenCalculationEndWithMultiplicationOperand_WhenExpressionIsCorrect_ThenReturnFalse() {
         addCalculation("3 ×")
-        XCTAssertFalse(arithmetics.expressionIsCorrect)
+        XCTAssertFalse(arithmetics.canAddOperand)
     }
 
     func testGivenCalculationEndWithDivisionOperand_WhenExpressionIsCorrect_ThenReturnFalse() {
         addCalculation("3 ÷")
-        XCTAssertFalse(arithmetics.expressionIsCorrect)
+        XCTAssertFalse(arithmetics.canAddOperand)
     }
 
     // Test expressionHasEnoughElement
@@ -161,7 +153,7 @@ class ArithmeticsTestCase: XCTestCase {
     func testGivenEmptyCalculation_WhenDeleteElement_ThenNothing() {
         addCalculation("")
         arithmetics.delete()
-        XCTAssertEqual(arithmetics.calculation, "")
+        XCTAssertEqual(arithmetics.calculation, "0")
     }
 
     func testGivenCalculationEndingWithOperand_WhenDeleteElement_ThenCalculationWithoutLastElement() {
@@ -170,10 +162,27 @@ class ArithmeticsTestCase: XCTestCase {
         XCTAssertEqual(arithmetics.calculation, "3")
     }
 
-    func testtestGivenCalculationEndingWithOperand_WhenDeleteElement_ThenCalculationIsEmpty() {
+    func testGivenCalculationEndingWithOperand_WhenDeleteElement_ThenCalculationIsEmpty() {
         addCalculation("45 × 56")
         arithmetics.resetCalculation()
-        XCTAssertEqual(arithmetics.calculation, "")
+        XCTAssertEqual(arithmetics.calculation, "0")
+    }
+
+    func testGivenNothing_WhenDeleteElement_ThenKeepZero() {
+        arithmetics.delete()
+        XCTAssertEqual(arithmetics.calculation, "0")
+    }
+
+    func testGivenCalculationEndingWithOperand_WhenAddOperand_ThenChangeOldOperandWithNewOperand() {
+        arithmetics.calculation = "45 + "
+        addCalculation("-")
+        XCTAssertEqual(arithmetics.calculation, "45 - ")
+    }
+
+    func testGivenCalculationWithOneElement_WhenDelete_ThenCalculationIsZero() {
+        arithmetics.calculation = "3"
+        arithmetics.delete()
+        XCTAssertEqual(arithmetics.calculation, "0")
     }
 
     // MARK: - Methods
@@ -183,6 +192,9 @@ class ArithmeticsTestCase: XCTestCase {
     }
 
     func addCalculation(_ calculation: String) {
-        arithmetics.calculation.append(calculation)
+        let elements: [String] = calculation.split(separator: " ").map { "\($0)" }
+        elements.forEach({ element in
+            arithmetics.addElement(element)
+        })
     }
 }

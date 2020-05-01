@@ -94,9 +94,8 @@ class Arithmetics {
             return multiplicationIndex
         } else if let divisionIndex = operationsToReduce.firstIndex(of: "÷") {
             return divisionIndex
-        } else {
-            return nil
         }
+        return nil
     }
 
     func delete() {

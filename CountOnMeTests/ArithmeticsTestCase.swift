@@ -47,6 +47,21 @@ class ArithmeticsTestCase: XCTestCase {
         XCTAssertEqual(result, "Unknown operand !")
     }
 
+    func testGivenZero_WhenAddingAnotherOperand_ThenZero() {
+        addCalculation("/")
+        XCTAssertEqual(arithmetics.calculation, "0")
+    }
+
+    func testGivenNonNumeralElementToRight_WhenCalculate_ThenError() {
+        arithmetics.calculation = "A + 4"
+        XCTAssertEqual(arithmetics.calculate(), "error")
+    }
+
+    func testGivenNonNumeralElementToLeft_WhenCalculate_ThenError() {
+        arithmetics.calculation = "4 + B"
+        XCTAssertEqual(arithmetics.calculate(), "error")
+    }
+
     func testGivenCalculationWithMultipleOperand_WhenCalculate_ThenCalculateWithPrioritizingMultiplication() {
         addCalculation("1 + 2 × 3 + 4 × 2")
         let result: String = arithmetics.calculate()
@@ -183,6 +198,12 @@ class ArithmeticsTestCase: XCTestCase {
         arithmetics.calculation = "3"
         arithmetics.delete()
         XCTAssertEqual(arithmetics.calculation, "0")
+    }
+
+    func testGivenNilElement_WhenDelete_ThenReturnNil() {
+        arithmetics.calculation = ""
+        arithmetics.delete()
+        XCTAssertEqual(arithmetics.calculation, "")
     }
 
     // MARK: - Methods

@@ -59,10 +59,6 @@ class ViewController: UIViewController {
     }
 
     // MARK: - Methods
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        textView.text = arithmetics.calculation
-    }
 
     func showErrorDialog(title: String, message: String) {
         let alertVC =
@@ -73,6 +69,12 @@ class ViewController: UIViewController {
 
     func reset() {
         arithmetics.resetCalculation()
+        textView.text = arithmetics.calculation
+    }
+
+    // MARK: - LifeCycle methods
+    override func viewDidLoad() {
+        super.viewDidLoad()
         textView.text = arithmetics.calculation
     }
 }

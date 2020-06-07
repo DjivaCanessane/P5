@@ -9,6 +9,8 @@
 import Foundation
 
 class Arithmetics {
+
+    // MARK: - Properties
     var calculation: String = "0"
 
     var elements: [String] {
@@ -28,6 +30,7 @@ class Arithmetics {
 
     var expressionHasResult: Bool = false
 
+    // MARK: - Internal methods
     func calculate() -> String {
         // Create local copy of operations
         operationsToReduce = elements
@@ -40,6 +43,54 @@ class Arithmetics {
         return result
     }
 
+    func delete() {
+        // Ensure that the calculation will not reset when taping number Button
+        expressionHasResult = false
+        guard calculation != "0" else { return }
+        guard let lastChar = calculation.last else { return }
+        guard String(lastChar) != calculation else { return calculation = "0" }
+        guard lastChar == " " else {
+            calculation = String(calculation.dropLast())
+            return
+        }
+        calculation = String(calculation.dropLast(3))
+        return
+    }
+
+    func resetCalculation() {
+        expressionHasResult = false
+        calculation = "0"
+    }
+
+    func addElement(_ element: String) {
+        // When addind a integer we replace the initial zero
+        if calculation == "0" && Int(element) != nil {
+            calculation = String(calculation.dropLast())
+            calculation.append(element)
+            return
+        } else if Int(element) != nil {
+            calculation.append(element)
+        } else {
+            switch element {
+            case "+": addOperandToCalculation(" + ")
+            case "×": addOperandToCalculation(" × ")
+            case "-": addOperandToCalculation(" - ")
+            case "÷": addOperandToCalculation(" ÷ ")
+            default: return
+            }
+        }
+    }
+
+    func addOperandToCalculation(_ sign: String) {
+        if canAddOperand {
+            calculation.append(sign)
+        } else {
+            calculation = String(calculation.dropLast(3))
+            calculation.append(sign)
+        }
+    }
+
+    // MARK: - Private methods
     private func makePriorOperations() {
         while let priorOperandIndex = hasPriorOperation() {
             let result: String = performOperation(priorOperandIndex)
@@ -98,50 +149,4 @@ class Arithmetics {
         return nil
     }
 
-    func delete() {
-        // Ensure that the calculation will not reset when taping number Button
-        expressionHasResult = false
-        guard calculation != "0" else { return }
-        guard let lastChar = calculation.last else { return }
-        guard String(lastChar) != calculation else { return calculation = "0" }
-        guard lastChar == " " else {
-            calculation = String(calculation.dropLast())
-            return
-        }
-        calculation = String(calculation.dropLast(3))
-        return
-    }
-
-    func resetCalculation() {
-        expressionHasResult = false
-        calculation = "0"
-    }
-
-    func addElement(_ element: String) {
-        // When addind a integer we replace the initial zero
-        if calculation == "0" && Int(element) != nil {
-            calculation = String(calculation.dropLast())
-            calculation.append(element)
-            return
-        } else if Int(element) != nil {
-            calculation.append(element)
-        } else {
-            switch element {
-            case "+": addOperandToCalculation(" + ")
-            case "×": addOperandToCalculation(" × ")
-            case "-": addOperandToCalculation(" - ")
-            case "÷": addOperandToCalculation(" ÷ ")
-            default: return
-            }
-        }
-    }
-
-    func addOperandToCalculation(_ sign: String) {
-        if canAddOperand {
-            calculation.append(sign)
-        } else {
-            calculation = String(calculation.dropLast(3))
-            calculation.append(sign)
-        }
-    }
 }

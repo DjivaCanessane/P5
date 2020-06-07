@@ -10,12 +10,11 @@ import XCTest
 @testable import CountOnMe
 
 class ArithmeticsTestCase: XCTestCase {
-    // MARK: - Properties
+    // MARK: - Property
     var arithmetics: Arithmetics = Arithmetics()
 
-    // MARK: - Tests
+    // MARK: - Test calculation with each type of operand
 
-    // Test calculation with each type of operand
     func testGivenCalculation_WhenSubstraction_ThenShowResult() {
         addCalculation("3 - 2")
         XCTAssertEqual(arithmetics.calculate(), "1")
@@ -36,15 +35,15 @@ class ArithmeticsTestCase: XCTestCase {
         XCTAssertEqual(arithmetics.calculate(), "2")
     }
 
-    func testGivenCalculation_WhenDivisionByZero_ThenShowError() {
-        addCalculation("4 ÷ 0")
-        XCTAssertEqual(arithmetics.calculate(), "impossible")
-    }
-
     func testGivenCalculation_WhenUsingAnotherOperand_ThenShowError() {
         arithmetics.calculation = "4 / 5"
         let result = arithmetics.calculate()
         XCTAssertEqual(result, "Unknown operand !")
+    }
+    // MARK: - Test Errors
+    func testGivenCalculation_WhenDivisionByZero_ThenShowError() {
+        addCalculation("4 ÷ 0")
+        XCTAssertEqual(arithmetics.calculate(), "impossible")
     }
 
     func testGivenZero_WhenAddingAnotherOperand_ThenZero() {
@@ -62,6 +61,7 @@ class ArithmeticsTestCase: XCTestCase {
         XCTAssertEqual(arithmetics.calculate(), "error")
     }
 
+    // MARK: - Test prioritizing operations
     func testGivenCalculationWithMultipleOperand_WhenCalculate_ThenCalculateWithPrioritizingMultiplication() {
         addCalculation("1 + 2 × 3 + 4 × 2")
         let result: String = arithmetics.calculate()
@@ -73,7 +73,7 @@ class ArithmeticsTestCase: XCTestCase {
         XCTAssertEqual(arithmetics.calculate(), "5")
     }
 
-    // Test calculation when starting with +, -, ÷ or ×
+    // MARK: - Test calculation when starting with - or +
     func testGivenCalculation_WhenStartingWithPlus_ThenShowError() {
         addCalculation(" - 4 + 3")
         XCTAssertEqual(arithmetics.calculate(), "-1")
@@ -84,7 +84,7 @@ class ArithmeticsTestCase: XCTestCase {
         XCTAssertEqual(arithmetics.calculate(), "7")
     }
 
-    // Test expressionIsCorrect after each type of operand
+    // MARK: - Test expressionIsCorrect property after each type of operand
     func testGivenCalculationEndWithPlusOperand_WhenExpressionIsCorrect_ThenReturnFalse() {
         addCalculation("3 +")
         XCTAssertFalse(arithmetics.canAddOperand)
@@ -105,7 +105,7 @@ class ArithmeticsTestCase: XCTestCase {
         XCTAssertFalse(arithmetics.canAddOperand)
     }
 
-    // Test expressionHasEnoughElement
+    // MARK: - Test if calculation has enough element to calculate
     func testGivenCalculationWithTwoElements_WhenExpressionHasEnoughElement_ThenReturnFalse() {
         addCalculation("45")
         XCTAssertFalse(arithmetics.expressionHasEnoughElement)
@@ -116,7 +116,7 @@ class ArithmeticsTestCase: XCTestCase {
         XCTAssertTrue(arithmetics.expressionHasEnoughElement)
     }
 
-    // Test canAddOperand after each type of operand
+    // MARK: - Test canAddOperand property after each type of operand
     func testGivenCalculationEndWithPlusOperand_WhenCanAddOperand_ThenReturnFalse() {
         addCalculation("3 +")
         XCTAssertFalse(arithmetics.canAddOperand)
@@ -137,7 +137,7 @@ class ArithmeticsTestCase: XCTestCase {
         XCTAssertFalse(arithmetics.canAddOperand)
     }
 
-    // Test expressionHasResult
+    // MARK: - Test expressionHasResult property
     func testGivenEmptyCalculation_WhenCheckExpressionHasResult_ThenReturnFalse() {
         addCalculation("3 + 5")
         XCTAssertFalse(arithmetics.expressionHasResult)
@@ -158,7 +158,7 @@ class ArithmeticsTestCase: XCTestCase {
         XCTAssertFalse(arithmetics.expressionHasResult)
     }
 
-    // Test delete method
+    // MARK: - Test delete method
     func testGivenCalculationEndingWithInt_WhenDeleteElement_ThenCalculationWithoutLastElement() {
         addCalculation("3 + 5")
         arithmetics.delete()
@@ -177,21 +177,9 @@ class ArithmeticsTestCase: XCTestCase {
         XCTAssertEqual(arithmetics.calculation, "3")
     }
 
-    func testGivenCalculationEndingWithOperand_WhenDeleteElement_ThenCalculationIsEmpty() {
-        addCalculation("45 × 56")
-        arithmetics.resetCalculation()
-        XCTAssertEqual(arithmetics.calculation, "0")
-    }
-
     func testGivenNothing_WhenDeleteElement_ThenKeepZero() {
         arithmetics.delete()
         XCTAssertEqual(arithmetics.calculation, "0")
-    }
-
-    func testGivenCalculationEndingWithOperand_WhenAddOperand_ThenChangeOldOperandWithNewOperand() {
-        arithmetics.calculation = "45 + "
-        addCalculation("-")
-        XCTAssertEqual(arithmetics.calculation, "45 - ")
     }
 
     func testGivenCalculationWithOneElement_WhenDelete_ThenCalculationIsZero() {
@@ -204,6 +192,20 @@ class ArithmeticsTestCase: XCTestCase {
         arithmetics.calculation = ""
         arithmetics.delete()
         XCTAssertEqual(arithmetics.calculation, "")
+    }
+
+    // MARK: - Test reset calculation
+    func testGivenCalculationEndingWithOperand_WhenDeleteElement_ThenCalculationIsEmpty() {
+        addCalculation("45 × 56")
+        arithmetics.resetCalculation()
+        XCTAssertEqual(arithmetics.calculation, "0")
+    }
+
+    // MARK: - Test replacing operand
+    func testGivenCalculationEndingWithOperand_WhenAddOperand_ThenChangeOldOperandWithNewOperand() {
+        arithmetics.calculation = "45 + "
+        addCalculation("-")
+        XCTAssertEqual(arithmetics.calculation, "45 - ")
     }
 
     // MARK: - Methods

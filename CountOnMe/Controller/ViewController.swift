@@ -11,14 +11,15 @@ import UIKit
 class ViewController: UIViewController {
 
     // MARK: - Outlets
+
     @IBOutlet weak var textView: UITextView!
     @IBOutlet var numberButtons: [UIButton]!
-
     // MARK: - Properties
-    let arithmetics: Arithmetics = Arithmetics()
 
+    let arithmetics: Arithmetics = Arithmetics()
     // MARK: - Actions
-    // View actions
+
+
     @IBAction func tappedNumberButton(_ sender: UIButton) {
         guard let numberText = sender.title(for: .normal) else { return }
         arithmetics.addElement(numberText)
@@ -73,6 +74,7 @@ class ViewController: UIViewController {
     }
 
     // MARK: - LifeCycle methods
+
     override func viewDidLoad() {
         super.viewDidLoad()
         textView.text = arithmetics.calculation

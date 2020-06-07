@@ -11,6 +11,7 @@ import Foundation
 class Arithmetics {
 
     // MARK: - Properties
+
     var calculation: String = "0"
 
     var elements: [String] {
@@ -24,19 +25,20 @@ class Arithmetics {
         elements.count >= 3
     }
 
+    // Check if we can add an operand
     var canAddOperand: Bool {
         elements.last != "+" && elements.last != "-" && elements.last != "×" && elements.last != "÷"
     }
 
     var expressionHasResult: Bool = false
-
     // MARK: - Internal methods
+
     func calculate() -> String {
         // Create local copy of operations
         operationsToReduce = elements
 
         // Make all divisions and multiplications
-        makePriorOperations()
+        calculatePriorOperations()
         // Iterate over operations while an operand still here
         let result = calculateAdditionAndSubstraction()
         expressionHasResult = true
@@ -83,15 +85,18 @@ class Arithmetics {
 
     func addOperandToCalculation(_ sign: String) {
         if canAddOperand {
+            // add operand
             calculation.append(sign)
         } else {
+            // replace old operand wuth the new
             calculation = String(calculation.dropLast(3))
             calculation.append(sign)
         }
     }
-
     // MARK: - Private methods
-    private func makePriorOperations() {
+
+    // Calculate all divisions and multiplications
+    private func calculatePriorOperations() {
         while let priorOperandIndex = hasPriorOperation() {
             let result: String = performOperation(priorOperandIndex)
             replaceOperationByResult(priorOperandIndex - 1, result)
@@ -140,6 +145,7 @@ class Arithmetics {
         return floor(result) == result ? String(Int(result)) : String(result)
     }
 
+    // Check if the calcuation get multiplication or divisions, if so it will return concerned operand index
     private func hasPriorOperation() -> Int? {
         if let multiplicationIndex = operationsToReduce.firstIndex(of: "×") {
             return multiplicationIndex

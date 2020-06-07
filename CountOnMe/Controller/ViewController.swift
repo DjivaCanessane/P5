@@ -19,7 +19,6 @@ class ViewController: UIViewController {
     let arithmetics: Arithmetics = Arithmetics()
     // MARK: - Actions
 
-
     @IBAction func tappedNumberButton(_ sender: UIButton) {
         guard let numberText = sender.title(for: .normal) else { return }
         arithmetics.addElement(numberText)

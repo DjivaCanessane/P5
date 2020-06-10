@@ -147,10 +147,9 @@ class Arithmetics {
 
     // Check if the calcuation get multiplication or divisions, if so it will return concerned operand index
     private func hasPriorOperation() -> Int? {
-        if let multiplicationIndex = operationsToReduce.firstIndex(of: "×") {
-            return multiplicationIndex
-        } else if let divisionIndex = operationsToReduce.firstIndex(of: "÷") {
-            return divisionIndex
+
+        for (index, element) in operationsToReduce.enumerated() {
+            if element == "×" || element == "÷" {  return index }
         }
         return nil
     }

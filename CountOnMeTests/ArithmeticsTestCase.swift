@@ -73,6 +73,16 @@ class ArithmeticsTestCase: XCTestCase {
         XCTAssertEqual(arithmetics.calculate(), "5")
     }
 
+    func testGivenCalculationWithMixedPriorOperandStartingWithDivision_WhenCalculate_ThenCalculateLinearly() {
+        addCalculation("1 ÷ 4 × 4")
+        XCTAssertEqual(arithmetics.calculate(), "1")
+    }
+
+    func testGivenCalculationWithMixedPriorOperandStartingWithMultiplication_WhenCalculate_ThenCalculateLinearly() {
+        addCalculation("1 × 4 ÷ 4")
+        XCTAssertEqual(arithmetics.calculate(), "1")
+    }
+
     // MARK: - Test calculation when starting with - or +
     func testGivenCalculation_WhenStartingWithPlus_ThenShowError() {
         addCalculation(" - 4 + 3")

@@ -25,10 +25,9 @@
                         </subviews>
                         <color key="backgroundColor" red="0.87515312430000003" green="0.84714430569999999" blue="0.83845502139999994" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="cPZ-91-f1t" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="2IN-3E-VIQ"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="cPZ-91-f1t" secondAttribute="trailing" constant="8" id="RjO-mi-9Tg"/>
+                            <constraint firstItem="cPZ-91-f1t" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="o4b-NG-rgk"/>
                             <constraint firstItem="cPZ-91-f1t" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="8" id="oAm-oZ-Ddr"/>
-                            <constraint firstItem="cPZ-91-f1t" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="ycw-UQ-4me"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>

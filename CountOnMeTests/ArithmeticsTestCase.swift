@@ -1,4 +1,4 @@
-//
+// swiftlint:disable weak_delegate
 //  ArithmeticsTestCase.swift
 //  CountOnMeTests
 //
@@ -113,12 +113,7 @@ class ArithmeticsTestCase: XCTestCase {
         arithmetics.calculate()
         XCTAssertEqual(arithmeticsMockDelegate.mockCalculation, "error")
     }
-//
-//    func testGivenCalculationWithThreeElements_WhenExpressionHasEnoughElement_ThenReturnTrue() {
-//        addCalculation("45 + 6")
-//        XCTAssertTrue(arithmetics.expressionHasEnoughElement)
-//    }
-//
+
     // MARK: - Test canAddOperand property after each type of operand
     func testGivenCalculationEndWithPlusOperand_WhenCalculate_ThenError() {
         addCalculation("3 +")
@@ -143,27 +138,6 @@ class ArithmeticsTestCase: XCTestCase {
         arithmetics.calculate()
         XCTAssertEqual(arithmeticsMockDelegate.mockCalculation, "error")
     }
-//
-//    // MARK: - Test expressionHasResult property
-//    func testGivenEmptyCalculation_WhenCheckExpressionHasResult_ThenReturnFalse() {
-//        addCalculation("3 + 5")
-//        XCTAssertFalse(arithmetics.expressionHasResult)
-//    }
-//
-//    func testGivenCalculation_WhenCalculate_ThenExpressionHasResultReturnTrue() {
-//        addCalculation("3 + 5")
-//        arithmetics.calculate()
-//        XCTAssertEqual(arithmeticsMockDelegate.mockCalculation, "8")
-//        XCTAssertTrue(arithmetics.expressionHasResult)
-//    }
-//
-//    func testGivenCalculationAndCalculate_WhenResetCalculation_ThenExpressionHasResultReturnFalse() {
-//        addCalculation("3 - 5")
-//        arithmetics.calculate()
-//        arithmetics.resetCalculation()
-//        XCTAssertEqual(arithmeticsMockDelegate.mockCalculation, "0")
-//        XCTAssertFalse(arithmetics.expressionHasResult)
-//    }
 
     // MARK: - Test delete method
     func testGivenCalculationEndingWithInt_WhenDeleteElement_ThenCalculationWithoutLastElement() {
@@ -171,12 +145,6 @@ class ArithmeticsTestCase: XCTestCase {
         arithmetics.delete()
         XCTAssertEqual(arithmeticsMockDelegate.mockCalculation, "3 + ")
     }
-
-//    func testGivenEmptyCalculation_WhenDeleteElement_ThenNothing() {
-//        addCalculation("")
-//        arithmetics.delete()
-//        XCTAssertEqual(arithmeticsMockDelegate.mockCalculation, "0")
-//    }
 
     func testGivenCalculationEndingWithOperand_WhenDeleteElement_ThenCalculationWithoutLastElement() {
         addCalculation("3 + ")

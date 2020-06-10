@@ -69,7 +69,7 @@ extension ViewController: ArithmeticsCalculationDelegate {
 
 // MARK: - Extension ArithmeticsErrorsHandlingDelegate
 extension ViewController: ArithmeticsErrorsHandlingDelegate {
-    
+
     func errorMissingElements() {
         return showErrorAlert(title: "Zéro!", message: "Entrez une expression correcte !")
     }

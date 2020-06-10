@@ -8,32 +8,44 @@
 
 import Foundation
 
+protocol ArithmeticsDelegate: class {
+    func calculationUpdated(_ calculation: String)
+    func errorMissingElements()
+    func errorNothingToCalculate()
+}
+
 class Arithmetics {
 
     // MARK: - Properties
+    weak var delegate: ArithmeticsDelegate?
 
-    var calculation: String = "0"
+    private var calculation: String = "0" {
+        didSet {
+            delegate?.calculationUpdated(calculation)
+        }
+    }
 
-    var elements: [String] {
+    private var elements: [String] {
         calculation.split(separator: " ").map { "\($0)" }
     }
 
-    var operationsToReduce: [String] = []
+    private var operationsToReduce: [String] = []
 
     // Check if we can calculate
-    var expressionHasEnoughElement: Bool {
+    private var expressionHasEnoughElement: Bool {
         elements.count >= 3
     }
 
     // Check if we can add an operand
-    var canAddOperand: Bool {
+    private var canAddOperand: Bool {
         elements.last != "+" && elements.last != "-" && elements.last != "×" && elements.last != "÷"
     }
 
-    var expressionHasResult: Bool = false
+    private var expressionHasResult: Bool = false
     // MARK: - Internal methods
 
-    func calculate() -> String {
+    func calculate() {
+        checkErrors()
         // Create local copy of operations
         operationsToReduce = elements
 
@@ -42,7 +54,7 @@ class Arithmetics {
         // Iterate over operations while an operand still here
         let result = calculateAdditionAndSubstraction()
         expressionHasResult = true
-        return result
+        calculation = result
     }
 
     func delete() {
@@ -56,7 +68,6 @@ class Arithmetics {
             return
         }
         calculation = String(calculation.dropLast(3))
-        return
     }
 
     func resetCalculation() {
@@ -69,7 +80,6 @@ class Arithmetics {
         if calculation == "0" && Int(element) != nil {
             calculation = String(calculation.dropLast())
             calculation.append(element)
-            return
         } else if Int(element) != nil {
             calculation.append(element)
         } else {
@@ -94,7 +104,17 @@ class Arithmetics {
         }
     }
     // MARK: - Private methods
-
+    
+    private func checkErrors() {
+        guard canAddOperand else {
+            delegate?.errorMissingElements()
+            return
+        }
+        guard expressionHasEnoughElement else {
+            delegate?.errorNothingToCalculate()
+            return
+        }
+    }
     // Calculate all divisions and multiplications
     private func calculatePriorOperations() {
         while let priorOperandIndex = hasPriorOperation() {
@@ -103,20 +123,13 @@ class Arithmetics {
         }
     }
 
-    private func calculateAdditionAndSubstraction() -> String {
-        while operationsToReduce.count > 2 {
-            let result: String = performOperation(1)
-            replaceOperationByResult(0, result)
-        }
-        guard let result = operationsToReduce.first else { return "error" }
-        return result
-    }
+    // Check if the calcuation get multiplication or divisions, if so it will return concerned operand index
+    private func hasPriorOperation() -> Int? {
 
-    private func replaceOperationByResult(_ atIndex: Int, _ with: String) {
-        for _ in 1...3 {
-            operationsToReduce.remove(at: atIndex)
+        for (index, element) in operationsToReduce.enumerated() {
+            if element == "×" || element == "÷" {  return index }
         }
-        operationsToReduce.insert(with, at: atIndex)
+        return nil
     }
 
     private func performOperation(_ indexOfOperand: Int) -> String {
@@ -145,13 +158,20 @@ class Arithmetics {
         return floor(result) == result ? String(Int(result)) : String(result)
     }
 
-    // Check if the calcuation get multiplication or divisions, if so it will return concerned operand index
-    private func hasPriorOperation() -> Int? {
-
-        for (index, element) in operationsToReduce.enumerated() {
-            if element == "×" || element == "÷" {  return index }
+    private func calculateAdditionAndSubstraction() -> String {
+        while operationsToReduce.count > 2 {
+            let result: String = performOperation(1)
+            replaceOperationByResult(0, result)
         }
-        return nil
+        guard let result = operationsToReduce.first else { return "error" }
+        return result
+    }
+
+    private func replaceOperationByResult(_ atIndex: Int, _ with: String) {
+        for _ in 1...3 {
+            operationsToReduce.remove(at: atIndex)
+        }
+        operationsToReduce.insert(with, at: atIndex)
     }
 
 }

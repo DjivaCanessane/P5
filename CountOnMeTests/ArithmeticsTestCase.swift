@@ -17,33 +17,38 @@ class ArithmeticsTestCase: XCTestCase {
 
     func testGivenCalculation_WhenSubstraction_ThenShowResult() {
         addCalculation("3 - 2")
-        XCTAssertEqual(arithmetics.calculate(), "1")
+        arithmetics.calculate()
+        XCTAssertEqual(arithmetics.calculation, "1")
     }
 
     func testGivenCalculation_WhenAddition_ThenShowResult() {
         addCalculation("3 + 2")
-        XCTAssertEqual(arithmetics.calculate(), "5")
+        arithmetics.calculate()
+        XCTAssertEqual(arithmetics.calculation, "5")
     }
 
     func testGivenCalculation_WhenMultiplication_ThenShowResult() {
         addCalculation("3 × 2")
-        XCTAssertEqual(arithmetics.calculate(), "6")
+        arithmetics.calculate()
+        XCTAssertEqual(arithmetics.calculation, "6")
     }
 
     func testGivenCalculation_WhenDivision_ThenShowResult() {
         addCalculation("4 ÷ 2")
-        XCTAssertEqual(arithmetics.calculate(), "2")
+        arithmetics.calculate()
+        XCTAssertEqual(arithmetics.calculation, "2")
     }
 
     func testGivenCalculation_WhenUsingAnotherOperand_ThenShowError() {
         arithmetics.calculation = "4 / 5"
-        let result = arithmetics.calculate()
-        XCTAssertEqual(result, "Unknown operand !")
+        arithmetics.calculate()
+        XCTAssertEqual(arithmetics.calculation, "Unknown operand !")
     }
     // MARK: - Test Errors
     func testGivenCalculation_WhenDivisionByZero_ThenShowError() {
         addCalculation("4 ÷ 0")
-        XCTAssertEqual(arithmetics.calculate(), "impossible")
+        arithmetics.calculate()
+        XCTAssertEqual(arithmetics.calculation, "impossible")
     }
 
     func testGivenZero_WhenAddingAnotherOperand_ThenZero() {
@@ -53,71 +58,58 @@ class ArithmeticsTestCase: XCTestCase {
 
     func testGivenNonNumeralElementToRight_WhenCalculate_ThenError() {
         arithmetics.calculation = "A + 4"
-        XCTAssertEqual(arithmetics.calculate(), "error")
+        arithmetics.calculate()
+        XCTAssertEqual(arithmetics.calculation, "error")
     }
 
     func testGivenNonNumeralElementToLeft_WhenCalculate_ThenError() {
         arithmetics.calculation = "4 + B"
-        XCTAssertEqual(arithmetics.calculate(), "error")
+        arithmetics.calculate()
+        XCTAssertEqual(arithmetics.calculation, "error")
     }
 
     // MARK: - Test prioritizing operations
     func testGivenCalculationWithMultipleOperand_WhenCalculate_ThenCalculateWithPrioritizingMultiplication() {
         addCalculation("1 + 2 × 3 + 4 × 2")
-        let result: String = arithmetics.calculate()
-        XCTAssertEqual(result, "15")
+        arithmetics.calculate()
+        XCTAssertEqual(arithmetics.calculation, "15")
     }
 
     func testGivenCalculationWithMultipleOperand_WhenCalculate_ThenCalculateWithPrioritizeDivision() {
         addCalculation("1 + 4 ÷ 2 + 4 ÷ 2")
-        XCTAssertEqual(arithmetics.calculate(), "5")
+        arithmetics.calculate()
+        XCTAssertEqual(arithmetics.calculation, "5")
     }
 
     func testGivenCalculationWithMixedPriorOperandStartingWithDivision_WhenCalculate_ThenCalculateLinearly() {
         addCalculation("1 ÷ 4 × 4")
-        XCTAssertEqual(arithmetics.calculate(), "1")
+        arithmetics.calculate()
+        XCTAssertEqual(arithmetics.calculation, "1")
     }
 
     func testGivenCalculationWithMixedPriorOperandStartingWithMultiplication_WhenCalculate_ThenCalculateLinearly() {
         addCalculation("1 × 4 ÷ 4")
-        XCTAssertEqual(arithmetics.calculate(), "1")
+        arithmetics.calculate()
+        XCTAssertEqual(arithmetics.calculation, "1")
     }
 
     // MARK: - Test calculation when starting with - or +
     func testGivenCalculation_WhenStartingWithPlus_ThenShowError() {
         addCalculation(" - 4 + 3")
-        XCTAssertEqual(arithmetics.calculate(), "-1")
+        arithmetics.calculate()
+        XCTAssertEqual(arithmetics.calculation, "-1")
     }
 
     func testGivenCalculation_WhenStartingWithMinus_ThenShowError() {
         addCalculation(" + 4 + 3")
-        XCTAssertEqual(arithmetics.calculate(), "7")
-    }
-
-    // MARK: - Test expressionIsCorrect property after each type of operand
-    func testGivenCalculationEndWithPlusOperand_WhenExpressionIsCorrect_ThenReturnFalse() {
-        addCalculation("3 +")
-        XCTAssertFalse(arithmetics.canAddOperand)
-    }
-
-    func testGivenCalculationEndWithMinusOperand_WhenExpressionIsCorrect_ThenReturnFalse() {
-        addCalculation("3 -")
-        XCTAssertFalse(arithmetics.canAddOperand)
-    }
-
-    func testGivenCalculationEndWithMultiplicationOperand_WhenExpressionIsCorrect_ThenReturnFalse() {
-        addCalculation("3 ×")
-        XCTAssertFalse(arithmetics.canAddOperand)
-    }
-
-    func testGivenCalculationEndWithDivisionOperand_WhenExpressionIsCorrect_ThenReturnFalse() {
-        addCalculation("3 ÷")
-        XCTAssertFalse(arithmetics.canAddOperand)
+        arithmetics.calculate()
+        XCTAssertEqual(arithmetics.calculation, "7")
     }
 
     // MARK: - Test if calculation has enough element to calculate
     func testGivenCalculationWithTwoElements_WhenExpressionHasEnoughElement_ThenReturnFalse() {
         addCalculation("45")
+        arithmetics.calculate()
         XCTAssertFalse(arithmetics.expressionHasEnoughElement)
     }
 
@@ -129,21 +121,25 @@ class ArithmeticsTestCase: XCTestCase {
     // MARK: - Test canAddOperand property after each type of operand
     func testGivenCalculationEndWithPlusOperand_WhenCanAddOperand_ThenReturnFalse() {
         addCalculation("3 +")
+        arithmetics.calculate()
         XCTAssertFalse(arithmetics.canAddOperand)
     }
 
     func testGivenCalculationEndWithMinusOperand_WhenCanAddOperand_ThenReturnFalse() {
         addCalculation("3 -")
+        arithmetics.calculate()
         XCTAssertFalse(arithmetics.canAddOperand)
     }
 
     func testGivenCalculationEndWithMultiplicationOperand_WhenCanAddOperand_ThenReturnFalse() {
         addCalculation("3 ×")
+        arithmetics.calculate()
         XCTAssertFalse(arithmetics.canAddOperand)
     }
 
     func testGivenCalculationEndWithDivisionOperand_WhenCanAddOperand_ThenReturnFalse() {
         addCalculation("3 ÷")
+        arithmetics.calculate()
         XCTAssertFalse(arithmetics.canAddOperand)
     }
 
@@ -155,16 +151,16 @@ class ArithmeticsTestCase: XCTestCase {
 
     func testGivenCalculation_WhenCalculate_ThenExpressionHasResultReturnTrue() {
         addCalculation("3 + 5")
-        let result: String = arithmetics.calculate()
-        XCTAssertEqual(result, "8")
+        arithmetics.calculate()
+        XCTAssertEqual(arithmetics.calculation, "8")
         XCTAssertTrue(arithmetics.expressionHasResult)
     }
 
     func testGivenCalculationAndCalculate_WhenResetCalculation_ThenExpressionHasResultReturnFalse() {
         addCalculation("3 - 5")
-        let result: String = arithmetics.calculate()
+        arithmetics.calculate()
         arithmetics.resetCalculation()
-        XCTAssertEqual(result, "-2")
+        XCTAssertEqual(arithmetics.calculation, "0")
         XCTAssertFalse(arithmetics.expressionHasResult)
     }
 

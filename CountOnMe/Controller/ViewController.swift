@@ -54,22 +54,27 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        arithmetics.delegate = self
+        arithmetics.errorDelegate = self
+        arithmetics.calculationDelegate = self
     }
 }
 
-// MARK: - Extension ArithmeticsDelegate
-extension ViewController: ArithmeticsDelegate {
+// MARK: - Extension ArithmeticsCalculationDelegate
+extension ViewController: ArithmeticsCalculationDelegate {
+    // Show the result
+    func calculationUpdated(_ calculation: String) {
+        textView.text = calculation
+    }
+}
+
+// MARK: - Extension ArithmeticsErrorsHandlingDelegate
+extension ViewController: ArithmeticsErrorsHandlingDelegate {
+    
     func errorMissingElements() {
         return showErrorAlert(title: "Zéro!", message: "Entrez une expression correcte !")
     }
 
     func errorNothingToCalculate() {
         return showErrorAlert(title: "Zéro!", message: "Démarrez un nouveau calcul !")
-    }
-
-    // Show the result
-    func calculationUpdated(_ calculation: String) {
-        textView.text = calculation
     }
 }

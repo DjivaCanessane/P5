@@ -15,6 +15,8 @@
 		1FA43BF3224E569A00F565CB /* SimpleCalcUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA43BF2224E569A00F565CB /* SimpleCalcUITests.swift */; };
 		32264329244937BC00768EBA /* Arithmetics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32264328244937BC00768EBA /* Arithmetics.swift */; };
 		3226432B2449385900768EBA /* ArithmeticsTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3226432A2449385900768EBA /* ArithmeticsTestCase.swift */; };
+		E419530F2491499200BEA97B /* ArithmeticsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E419530E2491499200BEA97B /* ArithmeticsDelegate.swift */; };
+		E419531124914A3000BEA97B /* ArithmeticsMockDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E419531024914A3000BEA97B /* ArithmeticsMockDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +51,8 @@
 		1FA43BF4224E569A00F565CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		32264328244937BC00768EBA /* Arithmetics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Arithmetics.swift; sourceTree = "<group>"; };
 		3226432A2449385900768EBA /* ArithmeticsTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArithmeticsTestCase.swift; sourceTree = "<group>"; };
+		E419530E2491499200BEA97B /* ArithmeticsDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArithmeticsDelegate.swift; sourceTree = "<group>"; };
+		E419531024914A3000BEA97B /* ArithmeticsMockDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArithmeticsMockDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +133,8 @@
 			isa = PBXGroup;
 			children = (
 				32264328244937BC00768EBA /* Arithmetics.swift */,
+				E419531024914A3000BEA97B /* ArithmeticsMockDelegate.swift */,
+				E419530E2491499200BEA97B /* ArithmeticsDelegate.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -312,9 +318,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E419530F2491499200BEA97B /* ArithmeticsDelegate.swift in Sources */,
 				32264329244937BC00768EBA /* Arithmetics.swift in Sources */,
 				1FA43BD5224E569900F565CB /* ViewController.swift in Sources */,
 				1FA43BD3224E569900F565CB /* AppDelegate.swift in Sources */,
+				E419531124914A3000BEA97B /* ArithmeticsMockDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

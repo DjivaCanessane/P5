@@ -8,20 +8,16 @@
 
 import Foundation
 
-protocol ArithmeticsDelegate: class {
-    func calculationUpdated(_ calculation: String)
-    func errorMissingElements()
-    func errorNothingToCalculate()
-}
-
 class Arithmetics {
 
     // MARK: - Properties
-    weak var delegate: ArithmeticsDelegate?
+    weak var calculationDelegate: ArithmeticsCalculationDelegate?
+
+    weak var errorDelegate: ArithmeticsErrorsHandlingDelegate?
 
     private var calculation: String = "0" {
         didSet {
-            delegate?.calculationUpdated(calculation)
+            calculationDelegate?.calculationUpdated(calculation)
         }
     }
 
@@ -45,7 +41,11 @@ class Arithmetics {
     // MARK: - Internal methods
 
     func calculate() {
-        checkErrors()
+        let hasErrors = checkErrors()
+        guard hasErrors == false else {
+            calculation = "error"
+            return
+        }
         // Create local copy of operations
         operationsToReduce = elements
 
@@ -88,7 +88,7 @@ class Arithmetics {
             case "×": addOperandToCalculation(" × ")
             case "-": addOperandToCalculation(" - ")
             case "÷": addOperandToCalculation(" ÷ ")
-            default: return
+            default: calculation = "Unknown operand !"
             }
         }
     }
@@ -104,16 +104,17 @@ class Arithmetics {
         }
     }
     // MARK: - Private methods
-    
-    private func checkErrors() {
+
+    private func checkErrors() -> Bool {
         guard canAddOperand else {
-            delegate?.errorMissingElements()
-            return
+            errorDelegate?.errorMissingElements()
+            return true
         }
         guard expressionHasEnoughElement else {
-            delegate?.errorNothingToCalculate()
-            return
+            errorDelegate?.errorNothingToCalculate()
+            return true
         }
+        return false
     }
     // Calculate all divisions and multiplications
     private func calculatePriorOperations() {

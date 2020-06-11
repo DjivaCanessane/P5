@@ -7,8 +7,9 @@
 //
 
 import Foundation
+@testable import CountOnMe
 
-class ArithmeticsMockDelegate: ArithmeticsCalculationDelegate {
+class ArithmeticsDelegateMock: ArithmeticsCalculationDelegate {
     var mockCalculation: String = "0"
     func calculationUpdated(_ calculation: String) {
         mockCalculation = calculation
